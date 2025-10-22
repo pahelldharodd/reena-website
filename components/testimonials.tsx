@@ -245,23 +245,22 @@ const testimonials: Testimonial[] = [
 ]
 
 export default function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
+  const [isPaused, setIsPaused] = useState(false)
+  
+  // Duplicate the testimonials to create a seamless loop effect
+  const duplicatedTestimonials = [...testimonials, ...testimonials]
+  
+  // Effect to restart animation when paused state changes
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 4000) // Auto-swipe every 4 seconds
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-  }
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  }
+    const scrollContainer = document.querySelector('.scroll-container');
+    if (scrollContainer) {
+      if (isPaused) {
+        scrollContainer.classList.add('pause-animation');
+      } else {
+        scrollContainer.classList.remove('pause-animation');
+      }
+    }
+  }, [isPaused]);
 
   return (
     <section className="py-24 bg-gradient-to-b from-[#FDF7E7]/30 to-white relative overflow-hidden">
@@ -283,82 +282,57 @@ export default function Testimonials() {
           </h2>
           <div className="h-0.5 w-20 bg-[#D4AF37] mx-auto mb-4" />
           <p className="text-lg text-[#94A7B4] max-w-2xl mx-auto">
-            Real stories from real women who trusted us with their special moments
+            Real stories from real clients who trusted us with their special moments
           </p>
         </div>
 
-        {/* Main Testimonial Display */}
-        <div className="relative max-w-4xl mx-auto mb-12">
-          <Card className="border-[#94A7B4]/20 shadow-xl overflow-hidden">
-            <CardContent className="p-0">
-              <div className="grid md:grid-cols-2">
-                {/* Image Side */}
-                <div className="relative h-64 md:h-96">
-                  <Image
-                    src={testimonials[currentIndex].image}
-                    alt={testimonials[currentIndex].name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+        {/* Continuous scrolling testimonials - horizontal */}
+        <div 
+          className="mb-16 relative overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Gradient overlays for fading effect */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+          
+          {/* The actual scrolling container */}
+          <div className={`flex gap-6 py-6 scroll-container ${isPaused ? 'pause-animation' : 'animate-scroll'}`}>
+            {duplicatedTestimonials.map((testimonial, index) => (
+              <div 
+                key={index} 
+                className="flex-none w-[340px] bg-white rounded-xl shadow-md p-6 border border-[#94A7B4]/10 hover:border-[#D4AF37]/30 hover:shadow-lg transition-all flex flex-col"
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-3">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-[#D4AF37] text-[#D4AF37]" />
+                  ))}
                 </div>
 
-                {/* Content Side */}
-                <div className="p-8 md:p-12 flex flex-col justify-center">
-                  {/* Stars */}
-                  <div className="flex gap-1 mb-6">
-                    {Array.from({ length: testimonials[currentIndex].rating }).map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-[#D4AF37] text-[#D4AF37]" />
-                    ))}
+                {/* Quote */}
+                <blockquote className="text-sm text-[#2D3436] leading-relaxed mb-4 flex-grow italic">
+                  "{testimonial.text.split("... More")[0]}"
+                </blockquote>
+
+                {/* Client Info */}
+                <div className="border-t border-[#94A7B4]/10 pt-3 flex justify-between items-center mt-auto">
+                  <div>
+                    <h4 className="font-medium text-[#2D3436]">
+                      {testimonial.name}
+                    </h4>
                   </div>
-
-                  {/* Quote */}
-                  <blockquote className="text-lg md:text-xl text-[#2D3436] leading-relaxed mb-6 font-medium">
-                    "{testimonials[currentIndex].text}"
-                  </blockquote>
-
-                  {/* Client Info */}
-                  <div className="border-t border-[#94A7B4]/20 pt-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-semibold text-[#2D3436] text-lg">
-                          {testimonials[currentIndex].name}
-                        </h4>
-                        <p className="text-[#94A7B4] text-sm">
-                          {testimonials[currentIndex].location}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <span className="bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full text-xs font-medium">
-                          {testimonials[currentIndex].occasion}
-                        </span>
-                      </div>
-                    </div>
+                  <div>
+                    <span className="bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+                      {testimonial.occasion}
+                    </span>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Navigation Buttons */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={prevTestimonial}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-lg"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={nextTestimonial}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-lg"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </Button>
+            ))}
+          </div>
         </div>
-
+        
         {/* Call to Action */}
         <div className="text-center">
           <h3 className="text-2xl font-serif text-[#2D3436] mb-4">

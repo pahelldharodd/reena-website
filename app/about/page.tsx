@@ -267,7 +267,7 @@ export default function AboutUs() {
       </section> */}
 
       {/* Sustainability Section */}
-      <section className="py-20">
+      {/* <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
@@ -287,12 +287,12 @@ export default function AboutUs() {
                 </p>
               </div>
 
-              {/* <Button 
+              <Button 
                 size="lg"
                 className="bg-[#94A7B4] hover:bg-[#7A8A95] text-white"
               >
                 Learn About Our Practices
-              </Button> */}
+              </Button>
             </div>
             
             <div className="relative">
@@ -309,7 +309,7 @@ export default function AboutUs() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }
