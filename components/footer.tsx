@@ -45,7 +45,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 relative">
                 <Image
-                  src="/reena logo.png"
+                  src="/reena-logo.png"
                   alt="Rina Dharod Logo"
                   fill
                   className="object-contain filter brightness-0 invert"

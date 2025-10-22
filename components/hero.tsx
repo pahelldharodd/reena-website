@@ -9,11 +9,11 @@ export default function Hero() {
   
   // Array of featured collection images - you can replace these with actual images
   const featuredImages = [
-    { src: "/hero_imgs/featured1.jpg", alt: "Featured Design 1" },
-    { src: "/hero_imgs/featured2.jpg", alt: "Featured Design 2" },
-    { src: "/hero_imgs/featured3.jpg", alt: "Featured Design 3" },
-    { src: "/hero_imgs/featured4.jpg", alt: "Featured Design 4" },
-    { src: "/hero_imgs/featured5.jpg", alt: "Featured Design 5" }
+    { src: "/hero_imgs/featured1.JPG", alt: "Featured Design 1" },
+    { src: "/hero_imgs/featured2.JPG", alt: "Featured Design 2" },
+    { src: "/hero_imgs/featured3.JPG", alt: "Featured Design 3" },
+    { src: "/hero_imgs/featured4.JPG", alt: "Featured Design 4" },
+    { src: "/hero_imgs/featured5.JPG", alt: "Featured Design 5" }
   ]
 
   useEffect(() => {

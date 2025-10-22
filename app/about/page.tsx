@@ -64,7 +64,7 @@ export default function AboutUs() {
               <div className="absolute inset-0 border-4 border-[#D4AF37] transform translate-x-6 translate-y-6 rounded-3xl" />
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/about2.jpg"
+                  src="/about2.JPG"
                   alt="Rina Dharod"
                   width={1000}
                   height={1000}

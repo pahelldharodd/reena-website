@@ -29,7 +29,7 @@ export default function Navbar() {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="/reena logo.png"
+              src="/reena-logo.png"
               alt="Rina Dharod Logo"
               width={240}
               height={80}
