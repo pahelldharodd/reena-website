@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-// Create Supabase client
+// Create Supabase client - used for both client and server-side operations
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Database types for TypeScript
@@ -19,6 +19,14 @@ export interface Appointment {
   message?: string
   status?: 'pending' | 'confirmed' | 'cancelled'
   created_at?: string
+}
+
+export interface NewsletterSubscriber {
+  id?: string
+  phone_number: string
+  subscribed_at?: string
+  active?: boolean
+  source?: string
 }
 
 // Available time slots for appointments (24-hour format for backend)
@@ -136,4 +144,13 @@ export function isValidBookingDate(dateString: string): boolean {
   maxDate.setMonth(maxDate.getMonth() + 3)
   
   return selected <= maxDate
+}
+
+// Validate phone number (basic validation)
+export function isValidPhoneNumber(phoneNumber: string): boolean {
+  // Remove any non-digit characters
+  const digitsOnly = phoneNumber.replace(/\D/g, '')
+  
+  // Basic validation - should have at least 10 digits
+  return digitsOnly.length >= 10 && digitsOnly.length <= 15
 }

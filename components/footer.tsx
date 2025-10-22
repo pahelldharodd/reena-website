@@ -6,9 +6,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from 'react'
+import { isValidPhoneNumber } from '@/lib/supabase'
 
 export default function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +23,44 @@ export default function Footer() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Basic validation
+    if (!phoneNumber || !isValidPhoneNumber(phoneNumber)) {
+      setSubscribeStatus("error")
+      return
+    }
+    
+    try {
+      setSubscribeStatus("loading")
+      
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber }),
+      })
+      
+      const data = await response.json()
+      
+      if (response.ok) {
+        setSubscribeStatus("success")
+        setPhoneNumber('')
+        // Reset status after 3 seconds
+        setTimeout(() => setSubscribeStatus("idle"), 3000)
+      } else {
+        throw new Error(data.message || 'Failed to subscribe')
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error)
+      setSubscribeStatus("error")
+      // Reset status after 3 seconds
+      setTimeout(() => setSubscribeStatus("idle"), 3000)
+    }
   }
 
   return (
@@ -45,7 +86,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 relative">
                 <Image
-                  src="/reena-logo.png"
+                  src="/reena logo.png"
                   alt="Rina Dharod Logo"
                   fill
                   className="object-contain filter brightness-0 invert"
@@ -70,7 +111,7 @@ export default function Footer() {
                 { href: "#services", label: "Our Services" },
                 { href: "#about", label: "About Us" },
                 { href: "/gallery", label: "Gallery" },
-                { href: "#", label: "Collections" },
+                { href: "/gallery", label: "Collections" },
                 { href: "#", label: "Testimonials" },
                 { href: "#", label: "Contact" }
               ].map((link, index) => (
@@ -175,16 +216,31 @@ export default function Footer() {
             <p className="text-[#94A7B4] mb-6">
               Subscribe to our newsletter for the latest collections, styling tips, and exclusive offers
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input 
                 type="tel" 
                 placeholder="Enter your phone number"
                 className="flex-1 px-4 py-2 rounded-lg bg-white/10 border border-[#94A7B4]/30 text-white placeholder-[#94A7B4] focus:outline-none focus:border-[#D4AF37]"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                required
               />
-              <Button className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white px-6">
-                Subscribe
+              <Button 
+                type="submit"
+                className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white px-6"
+                disabled={subscribeStatus === "loading"}
+              >
+                {subscribeStatus === "loading" ? "Subscribing..." : 
+                 subscribeStatus === "success" ? "Subscribed!" : 
+                 subscribeStatus === "error" ? "Try Again" : "Subscribe"}
               </Button>
-            </div>
+            </form>
+            {subscribeStatus === "success" && (
+              <p className="text-green-400 text-sm mt-2">Thank you for subscribing!</p>
+            )}
+            {subscribeStatus === "error" && (
+              <p className="text-red-400 text-sm mt-2">Something went wrong. Please try again.</p>
+            )}
           </div>
         </div>
 

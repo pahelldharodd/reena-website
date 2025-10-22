@@ -75,19 +75,30 @@ export default function Hero() {
             <div className="flex flex-col gap-8">
               {/* Buttons Container */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  size="lg"
-                  className="bg-[#94A7B4] hover:bg-[#7A8A95] text-white border border-[#94A7B4] hover:border-[#7A8A95] transform hover:scale-105 transition-all duration-300"
-                >
-                  Book a Consultation
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 transform hover:scale-105 transition-all duration-300"
-                >
-                  Explore Collections
-                </Button>
+                <a href="#appointment">
+                  <Button 
+                    size="lg"
+                    className="bg-[#94A7B4] hover:bg-[#7A8A95] text-white border border-[#94A7B4] hover:border-[#7A8A95] transform hover:scale-105 transition-all duration-300"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const appointmentSection = document.getElementById('appointment');
+                      if (appointmentSection) {
+                        appointmentSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    Book a Consultation
+                  </Button>
+                </a>
+                <a href="/gallery">
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 transform hover:scale-105 transition-all duration-300"
+                  >
+                    Explore Collections
+                  </Button>
+                </a>
               </div>
 
               {/* Social Proof - Centered relative to buttons above */}

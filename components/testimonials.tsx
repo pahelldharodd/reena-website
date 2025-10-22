@@ -341,12 +341,21 @@ export default function Testimonials() {
           <p className="text-[#94A7B4] mb-6 max-w-xl mx-auto">
             Join hundreds of satisfied clients who chose Rina Dharod for their special moments
           </p>
-          <Button 
-            size="lg"
-            className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white transform hover:scale-105 transition-all duration-300"
-          >
-            Book Your Consultation
-          </Button>
+          <a href="#appointment">
+            <Button 
+              size="lg"
+              className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white transform hover:scale-105 transition-all duration-300"
+              onClick={(e) => {
+                e.preventDefault();
+                const appointmentSection = document.getElementById('appointment');
+                if (appointmentSection) {
+                  appointmentSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              Book Your Consultation
+            </Button>
+          </a>
         </div>
       </div>
     </section>

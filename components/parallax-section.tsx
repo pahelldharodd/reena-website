@@ -77,13 +77,15 @@ export default function ParallaxSection() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg"
-              className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white transform hover:scale-105 transition-all duration-300"
-            >
-              View Latest Collection
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            <a href="/gallery">
+              <Button 
+                size="lg"
+                className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white transform hover:scale-105 transition-all duration-300"
+              >
+                View Latest Collection
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </a>
             <Button 
               variant="outline" 
               size="lg"

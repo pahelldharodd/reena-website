@@ -96,12 +96,14 @@ export default function AboutUs() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button 
-                  size="lg"
-                  className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white"
-                >
-                  Our Collections
-                </Button>
+                <a href="/gallery">
+                  <Button
+                    size="lg"
+                    className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-white"
+                  >
+                    Our Collections
+                  </Button>
+                </a>
                 <Button 
                   variant="outline" 
                   size="lg"
